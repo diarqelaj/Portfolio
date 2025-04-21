@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧑‍💻 Portfolio Website
 
-## Getting Started
+Welcome to my portfolio website! This is a modern, editable portfolio built using **Next.js**, **Tailwind CSS**, **shadcn/ui**, and **JSON-based project storage**. The website showcases my skills, projects, and experience as a fullstack developer.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Live Demo
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Check out the live site: [Portfolio Website](https://your-portfolio-link.com)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✨ Features
 
-## Learn More
+- **Modern Design**: A visually appealing and responsive design using Tailwind CSS.
+- **Editable Projects**: Easily editable project details stored in JSON files.
+- **Dark Mode**: A sleek dark mode theme for a modern experience.
+- **Social Links**: Quick access to my social media profiles like GitHub, LinkedIn, and email.
+- **Tech Stack Showcase**: A section dedicated to showcasing the technologies I work with.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠 Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is built with:
 
-## Deploy on Vercel
+- **Next.js** – A React-based framework for building fast and scalable web apps.
+- **Tailwind CSS** – A utility-first CSS framework for custom styling.
+- **shadcn/ui** – A modern UI component library for React.
+- **React** – A JavaScript library for building user interfaces.
+- **JSON** – Lightweight format used for project data storage.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📦 Installation
+
+To run this project locally:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/diarqelaj/Portfolio.git
+
+2. Navigate to the project directory:
+   ```bash
+   cd Portfolio
+3. Install the dependencies :
+   ```bash
+   bun install
+4. Start the development server:
+   ```bash
+   bun run dev
+
+## 🧰 Usage
+This portfolio is built with flexibility in mind. You can easily:
+
+Update project content in the projects array (stored in JSON).
+
+Customize layouts and styles to fit your preferences.
+
+Project Structure
+php
+Copy
+Edit
+.
+├── pages/         # Next.js pages
+├── components/    # Reusable React components (e.g., SocialIcon, ProjectCard)
+├── public/        # Static assets like images and icons
+├── styles/        # Global styles including Tailwind CSS config
+## 🤝 Contributing
+Feel free to fork, create a branch, and open a pull request. Contributions are always welcome and appreciated!
+
+## 📄 License
+This project is open-source and available under the MIT License.
