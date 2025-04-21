@@ -1,4 +1,4 @@
-# 🧑‍💻 Portfolio Website
+## Portfolio Website
 
 Welcome to my portfolio website! This is a modern, editable portfolio built using **Next.js**, **Tailwind CSS**, **shadcn/ui**, and **JSON-based project storage**. The website showcases my skills, projects, and experience as a fullstack developer.
 
@@ -10,7 +10,7 @@ Check out the live site: [Portfolio Website](https://your-portfolio-link.com)
 
 ---
 
-## ✨ Features
+## Features
 
 - **Modern Design**: A visually appealing and responsive design using Tailwind CSS.
 - **Editable Projects**: Easily editable project details stored in JSON files.
@@ -32,7 +32,7 @@ This project is built with:
 
 ---
 
-## 📦 Installation
+## Installation
 
 To run this project locally:
 
@@ -50,7 +50,7 @@ To run this project locally:
    ```bash
    bun run dev
 
-## 🧰 Usage
+##  Usage
 This portfolio is built with flexibility in mind. You can easily:
 
 Update project content in the projects array (stored in JSON).
@@ -66,8 +66,8 @@ Edit
 ├── components/    # Reusable React components (e.g., SocialIcon, ProjectCard)
 ├── public/        # Static assets like images and icons
 ├── styles/        # Global styles including Tailwind CSS config
-## 🤝 Contributing
+##  Contributing
 Feel free to fork, create a branch, and open a pull request. Contributions are always welcome and appreciated!
 
-## 📄 License
+##  License
 This project is open-source and available under the MIT License.
