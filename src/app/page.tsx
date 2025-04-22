@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const projects = [
   {
@@ -208,7 +209,55 @@ function SocialIcon({
   iconClass: string;
   svgPath: string;
 }) {
-  return (
+  const [showCopied, setShowCopied] = useState(false);
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+    if (label === "Email") {
+      e.preventDefault();
+
+      try {
+        window.location.href = href;
+
+        // If nothing happens after a short delay, fallback to copying
+        setTimeout(() => {
+          // Some systems won't throw, so we assume fail if window.location.href doesn't redirect
+          copyToClipboard("diarqelaj15@gmail.com");
+        }, 300);
+      } catch {
+        copyToClipboard("diarqelaj15@gmail.com");
+      }
+    }
+  };
+
+  const copyToClipboard = (email: string) => {
+    navigator.clipboard.writeText(email).then(() => {
+      setShowCopied(true);
+      setTimeout(() => setShowCopied(false), 2000);
+    });
+  };
+
+  const baseButton = (
+    <>
+      <svg viewBox="0 0 24 24" fill="currentColor" className={`w-7 h-7 ${iconClass}`}>
+        <path d={svgPath} />
+      </svg>
+      {label === "Email" && showCopied && (
+        <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-zinc-400 bg-zinc-800 border border-zinc-700 px-2 py-0.5 rounded shadow">
+          Email copied to clipboard
+        </span>
+      )}
+    </>
+  );
+
+  return label === "Email" ? (
+    <button
+      onClick={handleClick}
+      aria-label={label}
+      className="relative hover:opacity-80 hover:scale-110 transition-transform"
+    >
+      {baseButton}
+    </button>
+  ) : (
     <a
       href={href}
       target="_blank"
@@ -216,9 +265,10 @@ function SocialIcon({
       aria-label={label}
       className="hover:opacity-80 hover:scale-110 transition-transform"
     >
-      <svg viewBox="0 0 24 24" fill="currentColor" className={`w-7 h-7 ${iconClass}`}>
-        <path d={svgPath} />
-      </svg>
+      {baseButton}
     </a>
   );
 }
+
+
+
