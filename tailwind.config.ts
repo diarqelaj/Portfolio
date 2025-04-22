@@ -9,6 +9,15 @@ export default {
   ],
   theme: {
     extend: {
+      animation: {
+        'fade-in-out': 'fadeInOut 3s ease-in-out forwards',
+      },
+      keyframes: {
+        fadeInOut: {
+          '0%, 100%': { opacity: "0" },
+          '10%, 90%': { opacity: "1" },
+        },
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

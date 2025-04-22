@@ -242,10 +242,14 @@ function SocialIcon({
         <path d={svgPath} />
       </svg>
       {label === "Email" && showCopied && (
-        <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-zinc-400 bg-zinc-800 border border-zinc-700 px-2 py-0.5 rounded shadow">
-          Email copied to clipboard
-        </span>
-      )}
+      <span className="absolute top-15 right-5 flex items-center gap-2 text-xs text-zinc-400 bg-zinc-800 border border-zinc-700 px-3 py-1 rounded-lg shadow-md">
+        <svg className="w-4 h-4 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-14a6 6 0 11-6 6 6 6 0 016-6zm2.293 7.707a1 1 0 00-1.414-1.414L10 11.586l-1.879-1.879a1 1 0 10-1.414 1.414L9 13l3.293-3.293z" />
+        </svg>
+        Email copied to clipboard
+      </span>
+    )}
+
     </>
   );
 
