@@ -11,6 +11,7 @@ const projects = [
     description:
       "A modern, editable portfolio using Next.js, Tailwind CSS, shadcn/ui, and JSON-based project storage.",
     link: "#",
+    live: "https://portfolio-dijar-qelaj.vercel.app/",
     tech: ["Next.js", "TailwindCss", "shadcn/ui"],
   },
   {
@@ -18,6 +19,7 @@ const projects = [
     description:
       "A modern wallet tracker for crypto enthusiasts, featuring real-time price updates and a sleek UI.",
     link: "https://github.com/diarqelaj/CryptoWallet",
+    live: "https://crypto-wallet-delta-two.vercel.app/",
     tech: ["React", "JavaScript", "TailwindCss", "RestAPI"],
   },
   {
@@ -25,6 +27,7 @@ const projects = [
     description:
       "A modern web app for AI-based pathfinding, featuring a sleek UI and engaging content, as well as a custom AI chatbot helping users with their requests",
     link: "https://github.com/diarqelaj/VirtuPathAI",
+    live: "https://virtu-path-ai.vercel.app/",
     tech: ["Next.js", "TypeScript", "Sentry", "OpenAi"],
   },
   {
@@ -151,32 +154,71 @@ export default function Home() {
         </motion.section>
 
         {/* Projects */}
-        <motion.section id="projects" className="w-full max-w-5xl mb-20" initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
+        <motion.section
+          id="projects"
+          className="w-full max-w-5xl mb-20"
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           <h3 className="text-2xl font-bold mb-5 text-zinc-100 flex items-center gap-2">
             <span className="text-blue-500">//</span> Projects
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
-            {projects.map((project) => (
-              <a
-                key={project.title}
-                href={project.link}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="group bg-zinc-900/70 border border-zinc-800 rounded-xl flex flex-col p-5 hover:shadow-2xl transition-shadow duration-300 hover:-translate-y-1 focus:ring-2 focus:ring-blue-700 outline-none"
-              >
-                <h4 className="font-semibold text-lg mb-1 text-zinc-100 group-hover:text-blue-400 transition-colors">{project.title}</h4>
-                <p className="text-zinc-400 text-sm mb-3 min-h-[54px]">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mt-auto">
-                  {project.tech.map((tech) => (
-                    <span key={tech} className="bg-zinc-800 border border-zinc-700 rounded text-xs px-2 py-0.5 text-zinc-300 font-mono tracking-wider">
-                      {tech}
-                    </span>
-                  ))}
+            {projects.map((project) => {
+              const imageName = project.title.toLowerCase().replace(/\s+/g, "-") + ".png";
+              return (
+                <div
+                  key={project.title}
+                  onClick={() => window.open(project.link, "_blank")}
+                  role="link"
+                  tabIndex={0}
+                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && window.open(project.link, "_blank")}
+                  className="group cursor-pointer bg-zinc-900/70 border border-zinc-800 rounded-xl flex flex-col p-5 hover:shadow-2xl transition-shadow duration-300 hover:-translate-y-1 focus:ring-2 focus:ring-blue-700 outline-none"
+                >
+                  <div className="mb-3 overflow-hidden rounded-md border border-zinc-800">
+                    <img
+                      src={`/project-previews/${imageName}`}
+                      alt={`${project.title} preview`}
+                      className="w-full h-36 object-cover transition-transform group-hover:scale-[1.03]"
+                    />
+                  </div>
+                  <h4 className="font-semibold text-lg mb-1 text-zinc-100 group-hover:text-blue-400 transition-colors">
+                    {project.title}
+                  </h4>
+                  <p className="text-zinc-400 text-sm mb-3 min-h-[54px]">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mt-auto mb-3">
+                    {project.tech.map((tech) => (
+                      <span
+                        key={tech}
+                        className="bg-zinc-800 border border-zinc-700 rounded text-xs px-2 py-0.5 text-zinc-300 font-mono tracking-wider"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      onClick={(e) => e.stopPropagation()}
+                      className="mt-auto inline-block text-center text-sm bg-blue-600 hover:bg-blue-700 text-white py-1.5 px-3 rounded-md transition-colors"
+                    >
+                      Live Preview
+                    </a>
+                  )}
                 </div>
-              </a>
-            ))}
+              );
+            })}
           </div>
         </motion.section>
+
+          {/* Footer */}
+
+
+
 
         {/* Contact */}
         <motion.section id="contact" className="w-full max-w-2xl bg-zinc-900/70 rounded-2xl border border-zinc-800 p-8 shadow-xl" initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
