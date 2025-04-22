@@ -77,12 +77,30 @@ export default function Home() {
             I create visually engaging and performant web applications, focusing on great user experience and robust, scalable code. Let’s build something awesome together!
           </p>
 
-          {/* Socials */}
-          <div className="flex space-x-4 mb-8">
-            <SocialIcon href="https://github.com/diarqelaj" label="GitHub" iconClass="text-zinc-200" svgPath="..." />
-            <SocialIcon href="https://www.linkedin.com/in/dijar-qelaj/" label="LinkedIn" iconClass="text-blue-400" svgPath="..." />
-            <SocialIcon href="mailto:diarqelaj15@gmail.com" label="Email" iconClass="text-rose-300" svgPath="..." />
-          </div>
+           {/* Socials */}
+        <div className="flex space-x-4 mb-8 animate-fade-in-delay3">
+        <SocialIcon
+            href="https://github.com/diarqelaj"
+            label="GitHub"
+            iconClass="text-zinc-200"
+            svgPath="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.207 11.387.6.113.793-.26.793-.577v-2.234c-3.338.726-4.033-1.61-4.033-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.083-.729.083-.729 1.205.085 1.838 1.237 1.838 1.237 1.07 1.835 2.807 1.305 3.492.997.107-.775.418-1.305.76-1.605-2.665-.305-5.467-1.332-5.467-5.931 0-1.31.468-2.381 1.236-3.221-.124-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.3 1.23a11.52 11.52 0 013.003-.403c1.02.005 2.045.137 3.003.403 2.29-1.552 3.296-1.23 3.296-1.23.655 1.653.243 2.874.12 3.176.77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.624-5.48 5.921.43.37.823 1.1.823 2.219v3.293c0 .32.19.694.8.576C20.565 21.796 24 17.297 24 12c0-6.63-5.37-12-12-12z"
+          />
+
+          <SocialIcon
+            href="https://www.linkedin.com/in/dijar-qelaj/"
+            label="LinkedIn"
+            iconClass="text-blue-400"
+            svgPath="M19 0h-14C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5zM8.54 19.6H5.34v-9.6h3.2v9.6zM6.94 8.67c-1.03 0-1.87-.85-1.87-1.89 0-1.04.84-1.89 1.87-1.89s1.87.85 1.87 1.89c0 1.04-.84 1.89-1.87 1.89zM20 19.6h-3.2v-4.8c0-1.14-.02-2.61-1.6-2.61s-1.84 1.25-1.84 2.54v4.87H10.2v-9.6h3.07v1.31h.04c.43-.82 1.47-1.68 3.02-1.68 3.23 0 3.82 2.12 3.82 4.89v5.08z"
+          />
+
+          <SocialIcon
+            href="mailto:diarqelaj15@gmail.com"
+            label="Email"
+            iconClass="text-rose-300"
+            svgPath="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-1 4l-7 5-7-5V6l7 5 7-5v2z"
+          />
+
+        </div>
 
           {/* Tech Stack */}
           <div className="mb-8 flex flex-wrap justify-center gap-2">
