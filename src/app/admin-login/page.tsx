@@ -27,7 +27,8 @@ export default function AdminLogin() {
     <main className="min-h-screen bg-gradient-to-br from-zinc-950 to-zinc-900 flex flex-col items-center justify-center px-4">
       <div className="max-w-md w-full bg-zinc-900/90 p-8 rounded-2xl shadow-2xl border border-zinc-800 flex flex-col items-center animate-fade-in">
         <h1 className="text-2xl font-bold mb-2 text-blue-400 tracking-tight">Admin Login</h1>
-        <p className="mb-6 text-zinc-400 text-center">Sign in to manage your portfolio content.<br/> (Demo: <span className="font-mono text-zinc-200">admin / imthebest</span>)</p>
+        <p className="mb-6 text-zinc-400 text-center">Sign in to manage your portfolio content.<br/> 
+        </p>
         <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit} autoComplete="off">
           <input
             type="text"

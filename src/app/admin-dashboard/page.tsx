@@ -2,13 +2,13 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-const ABOUT_KEY = 'albert_portfolio_about';
-const PROJECTS_KEY = 'albert_portfolio_projects';
+const ABOUT_KEY = 'dijar_portfolio_about';
+const PROJECTS_KEY = 'dijar_portfolio_projects';
 
 function getInitialAbout() {
   return (
     typeof window !== 'undefined' && localStorage.getItem(ABOUT_KEY)) ||
-      `Hi! I’m Albert Hajrizaj, a passionate fullstack developer with a frontend focus. I love crafting modern, accessible, and beautiful user interfaces using React, Next.js, and Tailwind CSS. My favorite part of coding is turning creative ideas into real products and collaborating with design/dev teams to deliver awesome results.`;
+      `Hi! I’m Dijar Qelaj, a passionate fullstack developer with a frontend focus. I love crafting modern, accessible, and beautiful user interfaces using React, Next.js, and Tailwind CSS. My favorite part of coding is turning creative ideas into real products and collaborating with design/dev teams to deliver awesome results.`;
 }
 function getInitialProjects() {
   if (typeof window === 'undefined') return [];
