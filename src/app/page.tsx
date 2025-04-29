@@ -129,6 +129,27 @@ export default function Home() {
             Hi! I’m <b>Dijar Qelaj</b>, a passionate fullstack developer with a frontend focus. I love crafting modern, accessible, and beautiful user interfaces using React, Next.js, and Tailwind CSS. My favorite part of coding is turning creative ideas into real products and collaborating with design/dev teams to deliver awesome results.
           </p>
         </motion.section>
+        <motion.section
+          id="github"
+          className="w-full max-w-2xl mb-16 bg-zinc-900/70 rounded-2xl border border-zinc-800 p-8 shadow-xl flex flex-col items-center "
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-2xl font-bold mb-6 text-zinc-100 flex items-left gap-2">
+            <span className="text-blue-500">//</span> GitHub Contributions
+          </h3>
+          <div className="w-full overflow-x-auto">
+            <img
+              src="https://ghchart.rshah.org/diarqelaj"
+              alt="Dijar Qelaj's Github contributions chart"
+              className="rounded-lg border border-zinc-800 shadow-md transition-transform duration-300"
+            />
+          </div>
+        </motion.section>
+
+        {/* Skills */}
 
         {/* Experience */}
         <motion.section id="experience" className="w-full max-w-2xl mb-16 bg-zinc-900/70 rounded-2xl border border-zinc-800 p-8 shadow-xl" initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
