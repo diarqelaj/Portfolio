@@ -35,7 +35,27 @@ const projects = [
     description:
       "A modern bookshop website built for my college project with a sleek UI, featuring a custom CMS for easy content management.",
     link: "https://github.com/diarqelaj/Inxhinieri-dhe-Web",
-    tech: ["PHP", "CSS", "JavaScript", "MySQL"],
+    tech: [
+  "Next.js",
+  "TypeScript",
+  "Tailwind CSS",
+  "Node.js",
+  "React",
+  "ASP.NET Core",
+  "C#",
+  "SQL Server",
+  "Entity Framework Core",
+  "SignalR",
+  "JWT Auth",
+  "Firebase",
+  "MongoDB",
+  "Sentry",
+  "OpenAI API",
+  "Recharts",
+  "Vercel",
+  "Azure DevOps",
+]
+,
   },
 ];
 
@@ -126,8 +146,9 @@ export default function Home() {
             <span className="text-blue-500">//</span> About Me
           </h3>
           <p className="text-zinc-300 leading-relaxed">
-            Hi! I’m <b>Dijar Qelaj</b>, a passionate fullstack developer with a frontend focus. I love crafting modern, accessible, and beautiful user interfaces using React, Next.js, and Tailwind CSS. My favorite part of coding is turning creative ideas into real products and collaborating with design/dev teams to deliver awesome results.
+            Hi! I’m <b>Dijar Qelaj</b>, a passionate fullstack developer with a strong eye for frontend design and hands-on experience in backend systems. I enjoy building modern, accessible, and beautifully crafted user interfaces with React, Next.js, and Tailwind CSS — while also architecting secure and scalable APIs using ASP.NET Core, Entity Framework, and SQL Server. I thrive on turning creative ideas into real products and love collaborating with teams to deliver polished, high-impact web applications.
           </p>
+
         </motion.section>
         <motion.section
           id="github"
