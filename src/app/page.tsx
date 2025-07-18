@@ -28,34 +28,33 @@ const projects = [
       "A modern web app for AI-based pathfinding, featuring a sleek UI and engaging content, as well as a custom AI chatbot helping users with their requests",
     link: "https://github.com/diarqelaj/VirtuPathAI",
     live: "https://virtu-path-ai.vercel.app/",
-    tech: ["Next.js", "TypeScript", "Sentry", "OpenAi"],
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Node.js",
+      "React",
+      "ASP.NET Core",
+      "C#",
+      "SQL Server",
+      "Entity Framework Core",
+      "SignalR",
+      "JWT Auth",
+      "Firebase",
+      "MongoDB",
+      "Sentry",
+      "OpenAI API",
+      "Recharts",
+      "Vercel",
+      "Azure DevOps",
+    ],
   },
   {
     title: "Bookshop Website",
     description:
       "A modern bookshop website built for my college project with a sleek UI, featuring a custom CMS for easy content management.",
     link: "https://github.com/diarqelaj/Inxhinieri-dhe-Web",
-    tech: [
-  "Next.js",
-  "TypeScript",
-  "Tailwind CSS",
-  "Node.js",
-  "React",
-  "ASP.NET Core",
-  "C#",
-  "SQL Server",
-  "Entity Framework Core",
-  "SignalR",
-  "JWT Auth",
-  "Firebase",
-  "MongoDB",
-  "Sentry",
-  "OpenAI API",
-  "Recharts",
-  "Vercel",
-  "Azure DevOps",
-]
-,
+    tech: ["PHP", "CSS", "JavaScript", "MySQL"],
   },
 ];
 
@@ -128,7 +127,26 @@ export default function Home() {
 
           {/* Tech Stack */}
           <div className="mb-8 flex flex-wrap justify-center gap-2">
-            {["React", "Next.js", "TypeScript", "Tailwind", "PHP", "SCSS", "Node.js", "Symfony"].map((tech) => (
+            {[
+            "React",
+            "Next.js",
+            "TypeScript",
+            "Tailwind CSS",
+            "Node.js",
+            "ASP.NET Core",
+            "C#",
+            "Entity Framework Core",
+            "SQL Server",
+            "MongoDB",
+            "SignalR",
+            "JWT Auth",
+            "Firebase",
+            "OpenAI API",
+            "Sentry",
+            "SCSS",
+            "PHP",
+            "Symfony"
+          ].map((tech) => (
               <span key={tech} className="px-3 py-1 bg-zinc-800 text-zinc-300 rounded text-sm font-mono border border-zinc-700 shadow-sm hover:-translate-y-1 transition-transform duration-300">
                 {tech}
               </span>
