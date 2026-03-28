@@ -2,379 +2,473 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
 
 const projects = [
   {
-    title: "Portfolio Website (this one!)",
+    title: "VirtuPath AI",
     description:
-      "A modern, editable portfolio using Next.js, Tailwind CSS, shadcn/ui, and JSON-based project storage.",
-    link: "#",
-    live: "https://portfolio-dijar-qelaj.vercel.app/",
-    tech: ["Next.js", "TailwindCss", "shadcn/ui"],
+      "AI-based career pathfinding platform. Real-time encrypted chat via SignalR, AES-GCM encryption, leaderboard, Cloudinary media pipeline, rate-limited endpoints, and identity-based access control.",
+    link: "https://github.com/diarqelaj/VirtuPathAI",
+    live: "https://www.virtupathai.com",
+    tech: ["Next.js", "TypeScript", "ASP.NET Core", "C#", "SQL Server", "SignalR", "EF Core", "JWT Auth", "OpenAI API", "Azure DevOps"],
   },
   {
     title: "CryptoCap Wallet Tracker",
     description:
-      "A modern wallet tracker for crypto enthusiasts, featuring real-time price updates and a sleek UI.",
+      "Real-time crypto wallet tracker with live price feeds and a clean, responsive UI.",
     link: "https://github.com/diarqelaj/CryptoWallet",
     live: "https://crypto-wallet-delta-two.vercel.app/",
-    tech: ["React", "JavaScript", "TailwindCss", "RestAPI"],
+    tech: ["React", "JavaScript", "Tailwind CSS", "REST API"],
   },
   {
-    title: "VirtuPath AI",
+    title: "Portfolio Website",
     description:
-      "A modern web app for AI-based pathfinding, featuring a sleek UI and engaging content, as well as a custom AI chatbot helping users with their requests",
-    link: "https://github.com/diarqelaj/VirtuPathAI",
-    live: "https://virtu-path-ai.vercel.app/",
-    tech: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Node.js",
-      "React",
-      "ASP.NET Core",
-      "C#",
-      "SQL Server",
-      "Entity Framework Core",
-      "SignalR",
-      "JWT Auth",
-      "Firebase",
-      "MongoDB",
-      "Sentry",
-      "OpenAI API",
-      "Recharts",
-      "Vercel",
-      "Azure DevOps",
-    ],
+      "This site. Built with Next.js, Tailwind CSS, and shadcn/ui.",
+    link: "#",
+    live: "https://portfolio-dijar-qelaj.vercel.app/",
+    tech: ["Next.js", "Tailwind CSS", "shadcn/ui"],
   },
   {
-    title: "Bookshop Website",
+    title: "Bookshop CMS",
     description:
-      "A modern bookshop website built for my college project with a sleek UI, featuring a custom CMS for easy content management.",
+      "College project — a full bookshop website with a custom content management system.",
     link: "https://github.com/diarqelaj/Inxhinieri-dhe-Web",
-    tech: ["PHP", "CSS", "JavaScript", "MySQL"],
+    live: null,
+    tech: ["PHP", "MySQL", "CSS", "JavaScript"],
   },
 ];
 
+const experience = [
+  {
+    role: "Intern — Shopware Developer",
+    company: "Solution 25",
+    period: "Feb 2025 – Jun 2025",
+    location: "Prishtinë, KS",
+    bullets: [
+      "Plugin architecture and theme customization in Symfony, Twig, and PHP.",
+      "Agile sprints, code reviews, and system integration pipelines.",
+      "Shipped production-ready features for client e-commerce platforms.",
+    ],
+  },
+  {
+    role: "Freelance Full-Stack Developer",
+    company: "Remote",
+    period: "Jun 2022 – Present",
+    location: "Remote",
+    bullets: [
+      "Architected scalable web services with C#, .NET 8, and ASP.NET Web API.",
+      "Optimized MS SQL Server performance via query tuning and indexing.",
+      "Built responsive frontends with React, TypeScript, and Next.js.",
+      "CI/CD pipelines on Azure DevOps; unit, integration, and E2E test coverage.",
+    ],
+  },
+];
+
+
+
+const skills = {
+  "Backend": ["C#", ".NET 8", ".NET Framework 4.8", "ASP.NET Web API", "EF Core", "MS SQL Server", "REST APIs", "SignalR", "Kafka (basic)", "gRPC (basic)"],
+  "Frontend": ["React.js", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "SCSS", "HTML5 / CSS3"],
+  "Tools & Infra": ["Azure DevOps", "Git", "Microsoft Azure", "Cloudinary", "Firebase", "MongoDB", "Vercel", "Docker (basic)"],
+  "Testing & Methods": ["Unit Testing", "Integration Testing", "E2E Testing", "Agile / Scrum", "CI/CD", "Code Review"],
+  "Other Languages": ["PHP", "Symfony", "Twig"],
+};
+
+// ─── MOUSE GLOW ──────────────────────────────────────────────────────────────
+
+function MouseGlow() {
+  const [pos, setPos] = useState({ x: -999, y: -999 });
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      setPos({ x: e.clientX, y: e.clientY });
+      if (!visible) setVisible(true);
+    };
+    const leave = () => setVisible(false);
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseleave", leave);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseleave", leave);
+    };
+  }, [visible]);
+
+  return (
+    <div
+      className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300"
+      style={{ opacity: visible ? 1 : 0 }}
+    >
+      <div
+        style={{
+          position: "fixed",
+          left: pos.x,
+          top: pos.y,
+          width: 520,
+          height: 520,
+          transform: "translate(-50%, -50%)",
+          background: "radial-gradient(circle, rgba(0,229,200,0.07) 0%, rgba(0,229,200,0.025) 35%, transparent 70%)",
+          borderRadius: "50%",
+          pointerEvents: "none",
+        }}
+      />
+    </div>
+  );
+}
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
+
+function useTypewriter(words: string[], speed = 80, pause = 1800) {
+  const [display, setDisplay] = useState("");
+  const [wordIndex, setWordIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = words[wordIndex];
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (!deleting && charIndex <= current.length) {
+      timeout = setTimeout(() => setCharIndex((c) => c + 1), speed);
+      setDisplay(current.slice(0, charIndex));
+    } else if (!deleting && charIndex > current.length) {
+      timeout = setTimeout(() => setDeleting(true), pause);
+    } else if (deleting && charIndex >= 0) {
+      timeout = setTimeout(() => setCharIndex((c) => c - 1), speed / 2);
+      setDisplay(current.slice(0, charIndex));
+    } else {
+      setDeleting(false);
+      setWordIndex((i) => (i + 1) % words.length);
+    }
+    return () => clearTimeout(timeout);
+  }, [charIndex, deleting, wordIndex, words, speed, pause]);
+
+  return display;
+}
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 36 },
+  visible: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.55, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } }),
+};
+
+// ─── NAV ─────────────────────────────────────────────────────────────────────
+
+function Navbar({ active }: { active: string }) {
+  const links = ["about", "experience", "projects", "skills", "contact"];
+  return (
+    <header className="sticky top-0 z-50 border-b border-[#1a2a2a] bg-[#080b0e]/90 backdrop-blur-md">
+      <nav className="max-w-5xl mx-auto px-5 py-3 flex justify-between items-center">
+        <span className="font-mono text-[#00e5c8] font-bold tracking-widest text-sm">
+          diarqelaj<span className="animate-blink">_</span>
+        </span>
+        <div className="hidden sm:flex gap-5 font-mono text-xs text-[#6a8a8a]">
+          {links.map((l) => (
+            <a
+              key={l}
+              href={`#${l}`}
+              className={`hover:text-[#00e5c8] transition-colors duration-200 ${active === l ? "text-[#00e5c8]" : ""}`}
+            >
+              ./{l}
+            </a>
+          ))}
+        </div>
+      </nav>
+    </header>
+  );
+}
+
+// ─── SECTION LABEL ────────────────────────────────────────────────────────────
+
+function SectionLabel({ cmd, file }: { cmd: string; file: string }) {
+  return (
+    <div className="flex items-center gap-2 mb-10 font-mono text-sm">
+      <span className="text-[#00e5c8]">❯</span>
+      <span className="text-[#4a7a7a]">{cmd}</span>
+      <span className="text-[#c8d3d5] font-semibold">{file}</span>
+      <div className="flex-1 h-px bg-[#1a2a2a] ml-3" />
+    </div>
+  );
+}
+
+// ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
+
 export default function Home() {
+  const [activeSection, setActiveSection] = useState("about");
+  const title = useTypewriter(["Full-Stack Developer", "Backend Engineer", ".NET & React Dev", "CS Final Year"]);
+
+  useEffect(() => {
+    const sections = ["about", "experience", "projects", "skills", "blog", "contact"];
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) setActiveSection(e.target.id); });
+      },
+      { threshold: 0.35 }
+    );
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <>
-      {/* Navbar */}
-      <header className="sticky top-0 z-50 w-full bg-zinc-950 border-b border-zinc-800 shadow-sm">
-        <nav className="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center text-sm text-zinc-300 font-mono">
-          <span className="text-blue-400 font-bold">Dijar</span>
-          <div className="flex gap-4">
-            <a href="#about" className="hover:text-blue-400 transition">About</a>
-            <a href="#experience" className="hover:text-blue-400 transition">Experience</a>
-            <a href="#projects" className="hover:text-blue-400 transition">Projects</a>
-            <a href="#contact" className="hover:text-blue-400 transition">Contact</a>
-          </div>
-        </nav>
-      </header>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap');
+        * { font-family: 'JetBrains Mono', monospace; }
+        h1, h2, h3 { font-family: 'Syne', sans-serif; }
+        body { background: #080b0e; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .animate-blink { animation: blink 1.1s step-start infinite; }
+        @keyframes scan { 0%{transform:translateY(-100%)} 100%{transform:translateY(100vh)} }
+        .scanline { pointer-events:none; position:fixed; top:0; left:0; right:0; height:2px; background:rgba(0,229,200,0.03); animation:scan 8s linear infinite; z-index:9999; }
+        .dot-grid { background-image: radial-gradient(circle, #1a2e2e 1px, transparent 1px); background-size: 28px 28px; }
+        .glow { box-shadow: 0 0 0 1px #00e5c820, 0 0 24px #00e5c808; }
+        .tag { display:inline-block; padding:2px 8px; background:#0d1f1f; border:1px solid #1a3030; border-radius:4px; font-size:11px; color:#6aacac; font-family:'JetBrains Mono',monospace; }
+        .neon-border { border:1px solid #00e5c822; }
+        ::-webkit-scrollbar { width:6px; } ::-webkit-scrollbar-track { background:#080b0e; } ::-webkit-scrollbar-thumb { background:#1a3030; border-radius:3px; }
+      `}</style>
 
-      <main className="flex flex-col items-center min-h-screen bg-gradient-to-b from-zinc-950 to-zinc-900 text-zinc-50 px-4 pb-14">
+      <div className="scanline" />
+      <MouseGlow />
+      <Navbar active={activeSection} />
 
-        {/* Hero Section */}
-        <motion.section
-          className="max-w-xl w-full py-24 flex flex-col items-center text-center"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-        >
-          <Image
-            src="/image/dijar-qelaj.jpg"
-            width={100}
-            height={100}
-            alt="Your Profile"
-            className="rounded-full shadow-lg mb-6 border-2 border-zinc-700 hover:grayscale transition-all duration-500"
-          />
-          <h1 className="text-4xl font-bold mb-3 tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,10,0.22)]">
-            Dijar Qelaj
-          </h1>
-          <h2 className="text-xl font-mono text-zinc-400 mb-8">
-            Fullstack Developer
-          </h2>
-          <p className="text-zinc-300 mb-8 max-w-md">
-            I create visually engaging and performant web applications, focusing on great user experience and robust, scalable code. Let’s build something awesome together!
-          </p>
+      <main className="dot-grid min-h-screen text-[#c8d3d5] pb-24">
+        <div className="max-w-4xl mx-auto px-5">
 
-           {/* Socials */}
-        <div className="flex space-x-4 mb-8 animate-fade-in-delay3">
-        <SocialIcon
-            href="https://github.com/diarqelaj"
-            label="GitHub"
-            iconClass="text-zinc-200"
-            svgPath="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.207 11.387.6.113.793-.26.793-.577v-2.234c-3.338.726-4.033-1.61-4.033-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.083-.729.083-.729 1.205.085 1.838 1.237 1.838 1.237 1.07 1.835 2.807 1.305 3.492.997.107-.775.418-1.305.76-1.605-2.665-.305-5.467-1.332-5.467-5.931 0-1.31.468-2.381 1.236-3.221-.124-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.3 1.23a11.52 11.52 0 013.003-.403c1.02.005 2.045.137 3.003.403 2.29-1.552 3.296-1.23 3.296-1.23.655 1.653.243 2.874.12 3.176.77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.624-5.48 5.921.43.37.823 1.1.823 2.219v3.293c0 .32.19.694.8.576C20.565 21.796 24 17.297 24 12c0-6.63-5.37-12-12-12z"
-          />
+          {/* ── HERO ───────────────────────────────────────────────────────── */}
+          <motion.section
+            className="pt-24 pb-20 flex flex-col items-start"
+            initial="hidden" animate="visible" variants={fadeUp}
+          >
+            <motion.div className="mb-6 text-xs font-mono text-[#4a7a7a] flex items-center gap-2" variants={fadeUp} custom={0}>
+              <span className="w-2 h-2 rounded-full bg-[#00e5c8] inline-block animate-pulse" />
+              available for work · Prishtinë, KS
+            </motion.div>
 
-          <SocialIcon
-            href="https://www.linkedin.com/in/dijar-qelaj/"
-            label="LinkedIn"
-            iconClass="text-blue-400"
-            svgPath="M19 0h-14C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5zM8.54 19.6H5.34v-9.6h3.2v9.6zM6.94 8.67c-1.03 0-1.87-.85-1.87-1.89 0-1.04.84-1.89 1.87-1.89s1.87.85 1.87 1.89c0 1.04-.84 1.89-1.87 1.89zM20 19.6h-3.2v-4.8c0-1.14-.02-2.61-1.6-2.61s-1.84 1.25-1.84 2.54v4.87H10.2v-9.6h3.07v1.31h.04c.43-.82 1.47-1.68 3.02-1.68 3.23 0 3.82 2.12 3.82 4.89v5.08z"
-          />
+            <motion.div variants={fadeUp} custom={1} className="mb-5">
+              <Image
+                src="/image/dijar-qelaj.jpg"
+                width={72} height={72}
+                alt="Dijar Qelaj"
+                className="rounded-full border border-[#1a3030] grayscale hover:grayscale-0 transition-all duration-700"
+              />
+            </motion.div>
 
-          <SocialIcon
-            href="mailto:diarqelaj15@gmail.com"
-            label="Email"
-            iconClass="text-rose-300"
-            svgPath="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-1 4l-7 5-7-5V6l7 5 7-5v2z"
-          />
+            <motion.h1 variants={fadeUp} custom={2} className="text-5xl sm:text-6xl font-extrabold text-[#e8f0f0] leading-tight mb-3 tracking-tight">
+              Dijar Qelaj
+            </motion.h1>
 
-        </div>
+            <motion.div variants={fadeUp} custom={3} className="flex items-center gap-2 mb-6 font-mono text-[#00e5c8] text-lg">
+              <span className="text-[#4a7a7a]">~/</span>
+              <span>{title}</span>
+              <span className="animate-blink text-[#00e5c8]">|</span>
+            </motion.div>
 
-          {/* Tech Stack */}
-          <div className="mb-8 flex flex-wrap justify-center gap-2">
-            {[
-            "React",
-            "Next.js",
-            "TypeScript",
-            "Tailwind CSS",
-            "Node.js",
-            "ASP.NET Core",
-            "C#",
-            "Entity Framework Core",
-            "SQL Server",
-            "MongoDB",
-            "SignalR",
-            "JWT Auth",
-            "Firebase",
-            "OpenAI API",
-            "Sentry",
-            "SCSS",
-            "PHP",
-            "Symfony"
-          ].map((tech) => (
-              <span key={tech} className="px-3 py-1 bg-zinc-800 text-zinc-300 rounded text-sm font-mono border border-zinc-700 shadow-sm hover:-translate-y-1 transition-transform duration-300">
-                {tech}
-              </span>
-            ))}
-          </div>
+            <motion.p variants={fadeUp} custom={4} className="max-w-xl text-[#7a9898] text-sm leading-relaxed mb-8 font-mono">
+              I build scalable backend systems and fast frontends. C#/.NET on the server, React/TypeScript in the browser. Currently finishing my CS degree and open to full-time roles or interesting contracts.
+            </motion.p>
 
-          <Link href="/cv/dijar-qelaj-cv.pdf" download className="inline-block mt-1 py-2 px-6 rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-blue-800 transition-colors">
-            Download CV
-          </Link>
-        </motion.section>
+            <motion.div variants={fadeUp} custom={5} className="flex flex-wrap gap-3">
+              {[
+                { label: "github.com/diarqelaj", href: "https://github.com/diarqelaj", icon: "⬡" },
+                { label: "linkedin", href: "https://www.linkedin.com/in/dijar-qelaj/", icon: "⬡" },
+                { label: "diarqelaj15@gmail.com", href: "mailto:diarqelaj15@gmail.com", icon: "⬡" },
+              ].map((s) => (
+                <a key={s.label} href={s.href} target="_blank" rel="noreferrer"
+                  className="font-mono text-xs border border-[#1a3030] text-[#6aacac] px-4 py-2 rounded hover:border-[#00e5c8] hover:text-[#00e5c8] transition-all duration-200 hover:bg-[#00e5c808]">
+                  {s.label}
+                </a>
+              ))}
+              <Link href="/cv/Dijar-Qelaj's-CV-Full-Stack-Developer.pdf" download
+                className="font-mono text-xs bg-[#00e5c8] text-[#080b0e] font-bold px-4 py-2 rounded hover:bg-[#00c8b0] transition-colors duration-200">
+                download_cv.pdf
+              </Link>
+            </motion.div>
+          </motion.section>
 
-        {/* About */}
-        <motion.section id="about" className="w-full max-w-2xl mb-16 bg-zinc-900/70 rounded-2xl border border-zinc-800 p-8 shadow-xl" initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
-          <h3 className="text-2xl font-bold mb-3 text-zinc-100 flex items-center gap-2">
-            <span className="text-blue-500">//</span> About Me
-          </h3>
-          <p className="text-zinc-300 leading-relaxed">
-            Hi! I’m <b>Dijar Qelaj</b>, a passionate fullstack developer with a strong eye for frontend design and hands-on experience in backend systems. I enjoy building modern, accessible, and beautifully crafted user interfaces with React, Next.js, and Tailwind CSS — while also architecting secure and scalable APIs using ASP.NET Core, Entity Framework, and SQL Server. I thrive on turning creative ideas into real products and love collaborating with teams to deliver polished, high-impact web applications.
-          </p>
-
-        </motion.section>
-        <motion.section
-          id="github"
-          className="w-full max-w-2xl mb-16 bg-zinc-900/70 rounded-2xl border border-zinc-800 p-8 shadow-xl flex flex-col items-center "
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h3 className="text-2xl font-bold mb-6 text-zinc-100 flex items-left gap-2">
-            <span className="text-blue-500">//</span> GitHub Contributions
-          </h3>
-          <div className="w-full overflow-x-auto">
-            <img
-              src="https://ghchart.rshah.org/diarqelaj"
-              alt="Dijar Qelaj's Github contributions chart"
-              className="rounded-lg border border-zinc-800 shadow-md transition-transform duration-300"
-            />
-          </div>
-        </motion.section>
-
-        {/* Skills */}
-
-        {/* Experience */}
-        <motion.section id="experience" className="w-full max-w-2xl mb-16 bg-zinc-900/70 rounded-2xl border border-zinc-800 p-8 shadow-xl" initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
-          <h3 className="text-2xl font-bold mb-5 text-zinc-100 flex items-center gap-2">
-            <span className="text-blue-500">//</span> Experience
-          </h3>
-          <div className="space-y-6 text-zinc-300">
-            <div>
-              <h4 className="text-lg font-semibold text-zinc-100">Internship – Solution25</h4>
-              <p className="text-sm text-zinc-400 mb-1 italic">Shopware 6 Development · 3 months</p>
-              <p>
-                Contributed to e-commerce platforms using Shopware 6 and Twig. Worked on storefront customization, plugin systems, and responsive theme design. Collaborated with project managers and senior developers on real-world projects.
-              </p>
+          {/* ── ABOUT ──────────────────────────────────────────────────────── */}
+          <motion.section id="about" className="mb-24"
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
+            <SectionLabel cmd="cat" file="about_me.md" />
+            <div className="neon-border rounded-xl p-7 bg-[#0a0f0f] glow">
+              <div className="flex items-start gap-6">
+                <div className="hidden sm:block shrink-0 w-1 self-stretch bg-gradient-to-b from-[#00e5c8] to-transparent rounded-full opacity-40" />
+                <div className="space-y-4 text-[#9ab8b8] text-sm leading-7 font-mono">
+                  <p>
+                    I'm a full-stack developer wrapping up my CS degree at UBT in Prishtinë. Most of what I know I learned by shipping real things — freelancing since 2022 has meant owning decisions from database schema to deployment pipeline.
+                  </p>
+                  <p>
+                    My main stack is <span className="text-[#00e5c8]">C#/.NET 8</span> for the backend and <span className="text-[#00e5c8]">React + TypeScript + Next.js</span> on the front. I care a lot about security, performance, and code that's readable six months later.
+                  </p>
+                  <p>
+                    Outside of work I'm into how distributed systems fail, contributing to open source when I have something useful to add, and occasionally writing about things I've had to figure out the hard way.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div>
-              <h4 className="text-lg font-semibold text-zinc-100">Freelance Fullstack Developer</h4>
-              <p className="text-sm text-zinc-400 mb-1 italic">Remote · Ongoing</p>
-              <p>
-                Independently developed and deployed fullstack web applications. Collaborated with clients on tailored solutions, focusing on modern tech stacks including React, Next.js, Tailwind CSS, Symfony, and PHP. Built custom features, handled performance optimization, and ensured responsive UX.
-              </p>
-            </div>
-          </div>
-        </motion.section>
+          </motion.section>
 
-        {/* Projects */}
-        <motion.section
-          id="projects"
-          className="w-full max-w-5xl mb-20"
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h3 className="text-2xl font-bold mb-5 text-zinc-100 flex items-center gap-2">
-            <span className="text-blue-500">//</span> Projects
-          </h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            {projects.map((project) => {
-              const imageName = project.title.toLowerCase().replace(/\s+/g, "-") + ".png";
-              return (
-                <div
-                  key={project.title}
-                  onClick={() => window.open(project.link, "_blank")}
-                  role="link"
-                  tabIndex={0}
-                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && window.open(project.link, "_blank")}
-                  className="group cursor-pointer bg-zinc-900/70 border border-zinc-800 rounded-xl flex flex-col p-5 hover:shadow-2xl transition-shadow duration-300 hover:-translate-y-1 focus:ring-2 focus:ring-blue-700 outline-none"
-                >
-                  <div className="mb-3 overflow-hidden rounded-md border border-zinc-800">
-                    <img
-                      src={`/project-previews/${imageName}`}
-                      alt={`${project.title} preview`}
-                      className="w-full h-36 object-cover transition-transform group-hover:scale-[1.03]"
-                    />
+          {/* ── EXPERIENCE ─────────────────────────────────────────────────── */}
+          <motion.section id="experience" className="mb-24"
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
+            <SectionLabel cmd="git" file="log --oneline" />
+            <div className="space-y-6">
+                {experience.map((job, i) => (
+                  <motion.div key={job.role} custom={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="flex gap-5">
+                    {/* Timeline column */}
+                    <div className="flex flex-col items-center shrink-0">
+                      <div className="w-7 h-7 rounded-full border border-[#00e5c8] bg-[#080b0e] flex items-center justify-center mt-1 shrink-0">
+                        <div className="w-2 h-2 rounded-full bg-[#00e5c8]" />
+                      </div>
+                      {i < experience.length - 1 && (
+                        <div className="w-px flex-1 bg-[#1a3030] mt-2" />
+                      )}
+                    </div>
+                    {/* Card */}
+                    <div className="neon-border rounded-xl p-6 bg-[#0a0f0f] flex-1 mb-4">
+                      <div className="flex flex-wrap justify-between items-start gap-2 mb-3">
+                        <div>
+                          <h3 className="text-[#e8f0f0] font-semibold text-base">{job.role}</h3>
+                          <span className="text-[#00e5c8] font-mono text-xs">{job.company} · {job.location}</span>
+                        </div>
+                        <span className="font-mono text-xs text-[#4a7a7a] border border-[#1a3030] px-3 py-1 rounded">{job.period}</span>
+                      </div>
+                      <ul className="space-y-2">
+                        {job.bullets.map((b) => (
+                          <li key={b} className="font-mono text-xs text-[#7a9898] flex gap-2">
+                            <span className="text-[#00e5c8] shrink-0 mt-0.5">›</span>
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+          </motion.section>
+
+          {/* ── PROJECTS ───────────────────────────────────────────────────── */}
+          <motion.section id="projects" className="mb-24"
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
+            <SectionLabel cmd="ls" file="-la ./projects" />
+            <div className="grid sm:grid-cols-2 gap-5">
+              {projects.map((p, i) => (
+                <motion.div key={p.title} custom={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+                  className="neon-border rounded-xl bg-[#0a0f0f] flex flex-col hover:border-[#00e5c840] transition-all duration-300 hover:-translate-y-0.5 hover:glow group overflow-hidden">
+                  {/* tab bar */}
+                  <div className="flex items-center gap-1.5 px-4 py-2.5 bg-[#0d1515] border-b border-[#1a2a2a]">
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+                    <span className="ml-2 font-mono text-xs text-[#4a7a7a]">
+                      {p.title.toLowerCase().replace(/\s+/g, "_")}.ts
+                    </span>
                   </div>
-                  <h4 className="font-semibold text-lg mb-1 text-zinc-100 group-hover:text-blue-400 transition-colors">
-                    {project.title}
-                  </h4>
-                  <p className="text-zinc-400 text-sm mb-3 min-h-[54px]">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mt-auto mb-3">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="bg-zinc-800 border border-zinc-700 rounded text-xs px-2 py-0.5 text-zinc-300 font-mono tracking-wider"
-                      >
-                        {tech}
-                      </span>
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3 className="text-[#e8f0f0] font-semibold text-sm mb-2 group-hover:text-[#00e5c8] transition-colors">{p.title}</h3>
+                    <p className="text-[#6a8a8a] text-xs leading-relaxed mb-4 flex-1">{p.description}</p>
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {p.tech.slice(0, 6).map((t) => <span key={t} className="tag">{t}</span>)}
+                      {p.tech.length > 6 && <span className="tag text-[#4a7a7a]">+{p.tech.length - 6}</span>}
+                    </div>
+                    <div className="flex gap-3">
+                      {p.link && p.link !== "#" && (
+                        <a href={p.link} target="_blank" rel="noreferrer"
+                          className="font-mono text-xs text-[#4a7a7a] hover:text-[#00e5c8] transition-colors">
+                          source ↗
+                        </a>
+                      )}
+                      {p.live && (
+                        <a href={p.live} target="_blank" rel="noreferrer"
+                          className="font-mono text-xs text-[#00e5c8] border border-[#00e5c830] px-3 py-1 rounded hover:bg-[#00e5c810] transition-colors ml-auto">
+                          live preview ↗
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+
+          {/* ── SKILLS ─────────────────────────────────────────────────────── */}
+          <motion.section id="skills" className="mb-24"
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
+            <SectionLabel cmd="grep" file="-r skills ./me" />
+            <div className="neon-border rounded-xl bg-[#0a0f0f] p-6 space-y-5">
+              {Object.entries(skills).map(([category, items], i) => (
+                <motion.div key={category} custom={i} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                  <div className="font-mono text-xs text-[#4a7a7a] mb-2.5">
+                    <span className="text-[#00e5c8]">// </span>{category}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {items.map((skill) => (
+                      <span key={skill} className="tag hover:border-[#00e5c840] hover:text-[#00e5c8] transition-colors cursor-default">{skill}</span>
                     ))}
                   </div>
-                  {project.live && (
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      onClick={(e) => e.stopPropagation()}
-                      className="mt-auto inline-block text-center text-sm bg-blue-600 hover:bg-blue-700 text-white py-1.5 px-3 rounded-md transition-colors"
-                    >
-                      Live Preview
-                    </a>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </motion.section>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
 
-          {/* Footer */}
+          {/* ── GITHUB CONTRIBUTIONS ───────────────────────────────────────── */}
+          <motion.section className="mb-24"
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
+            <SectionLabel cmd="gh" file="contributions --year=2024" />
+            <div className="neon-border rounded-xl bg-[#0a0f0f] p-6">
+              <div className="flex items-center gap-2 mb-4 font-mono text-xs text-[#4a7a7a]">
+                <span className="text-[#00e5c8]">1,300+</span> contributions in the last year
+              </div>
+              <div className="overflow-x-auto rounded-lg">
+                <img
+                  src="https://ghchart.rshah.org/00e5c8/diarqelaj"
+                  alt="Dijar Qelaj GitHub contributions"
+                  className="rounded w-full"
+                />
+              </div>
+            </div>
+          </motion.section>
 
+          {/* ── CONTACT ────────────────────────────────────────────────────── */}
+          <motion.section id="contact" className="mb-12"
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
+            <SectionLabel cmd="echo" file="'let\u2019s work together'" />
+            <div className="neon-border rounded-xl bg-[#0a0f0f] p-8 text-center">
+              <h2 className="text-3xl font-extrabold text-[#e8f0f0] mb-3">Open to work</h2>
+              <p className="font-mono text-sm text-[#6a8a8a] mb-7 max-w-md mx-auto">
+                Whether it's a full-time role, a contract, or just an interesting problem — reach out.
+              </p>
+              <a href="mailto:diarqelaj15@gmail.com"
+                className="inline-block font-mono text-sm bg-[#00e5c8] text-[#080b0e] font-bold px-6 py-3 rounded hover:bg-[#00c8b0] transition-colors duration-200">
+                diarqelaj15@gmail.com
+              </a>
+              <div className="flex justify-center gap-6 mt-6">
+                {[
+                  { label: "GitHub", href: "https://github.com/diarqelaj" },
+                  { label: "LinkedIn", href: "https://www.linkedin.com/in/dijar-qelaj/" },
+                  { label: "Writing", href: "https://www.virtupathai.com/blog" },
+                ].map((l) => (
+                  <a key={l.label} href={l.href} target="_blank" rel="noreferrer"
+                    className="font-mono text-xs text-[#4a7a7a] hover:text-[#00e5c8] transition-colors">
+                    {l.label} ↗
+                  </a>
+                ))}
+              </div>
+            </div>
+          </motion.section>
 
+          {/* ── FOOTER ─────────────────────────────────────────────────────── */}
+          <footer className="text-center font-mono text-xs text-[#2a4a4a] pb-8">
+            <span className="text-[#00e5c8]">❯</span> built by dijar qelaj · {new Date().getFullYear()}
+          </footer>
 
-
-        {/* Contact */}
-        <motion.section id="contact" className="w-full max-w-2xl bg-zinc-900/70 rounded-2xl border border-zinc-800 p-8 shadow-xl" initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
-          <h3 className="text-2xl font-bold mb-3 text-zinc-100 flex items-center gap-2">
-            <span className="text-blue-500">//</span> Contact
-          </h3>
-          <div className="text-zinc-300">
-            Email me:{" "}
-            <a href="mailto:diarqelaj15@gmail.com" className="text-blue-400 underline hover:text-blue-300 transition-colors">
-              diarqelaj15@gmail.com
-            </a>
-          </div>
-          <div className="text-zinc-400 mt-2 text-sm">
-            Or reach out via GitHub or LinkedIn (links above).
-          </div>
-        </motion.section>
+        </div>
       </main>
     </>
   );
 }
-
-function SocialIcon({
-  href,
-  label,
-  iconClass,
-  svgPath,
-}: {
-  href: string;
-  label: string;
-  iconClass: string;
-  svgPath: string;
-}) {
-  const [showCopied, setShowCopied] = useState(false);
-
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
-    if (label === "Email") {
-      e.preventDefault();
-
-      try {
-        window.location.href = href;
-
-        // If nothing happens after a short delay, fallback to copying
-        setTimeout(() => {
-          // Some systems won't throw, so we assume fail if window.location.href doesn't redirect
-          copyToClipboard("diarqelaj15@gmail.com");
-        }, 300);
-      } catch {
-        copyToClipboard("diarqelaj15@gmail.com");
-      }
-    }
-  };
-
-  const copyToClipboard = (email: string) => {
-    navigator.clipboard.writeText(email).then(() => {
-      setShowCopied(true);
-      setTimeout(() => setShowCopied(false), 2000);
-    });
-  };
-
-  const baseButton = (
-    <>
-      <svg viewBox="0 0 24 24" fill="currentColor" className={`w-7 h-7 ${iconClass}`}>
-        <path d={svgPath} />
-      </svg>
-      {label === "Email" && showCopied && (
-      <span className="absolute top-15 right-5 flex items-center gap-2 text-xs text-zinc-400 bg-zinc-800 border border-zinc-700 px-3 py-1 rounded-lg shadow-md">
-        <svg className="w-4 h-4 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-14a6 6 0 11-6 6 6 6 0 016-6zm2.293 7.707a1 1 0 00-1.414-1.414L10 11.586l-1.879-1.879a1 1 0 10-1.414 1.414L9 13l3.293-3.293z" />
-        </svg>
-        Email copied to clipboard
-      </span>
-    )}
-
-    </>
-  );
-
-  return label === "Email" ? (
-    <button
-      onClick={handleClick}
-      aria-label={label}
-      className="relative hover:opacity-80 hover:scale-110 transition-transform"
-    >
-      {baseButton}
-    </button>
-  ) : (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer noopener"
-      aria-label={label}
-      className="hover:opacity-80 hover:scale-110 transition-transform"
-    >
-      {baseButton}
-    </a>
-  );
-}
-
-
-
